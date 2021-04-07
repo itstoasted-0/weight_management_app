@@ -13,3 +13,12 @@
  *= require_tree .
  *= require_self
  */
+
+@import "bootstrap";
+
+// 全体
+.graph-container {
+  @extend .container-fluid;
+  max-width: 768;
+  padding: 1rem;
+}
