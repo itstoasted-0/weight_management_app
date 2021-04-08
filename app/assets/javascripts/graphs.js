@@ -1,4 +1,5 @@
 document.addEventListener('turbolinks:load', () => {
+    if (document.getElementById('start-calendar')) {
     // '2020-01-12'のような文字列から，Javascriptの日付オブジェクトを取得する関数
     // setHoursを使用しないと，時差の影響で0時にならないため注意！
     const convertDate = (date) => new Date(new Date(date).setHours(0, 0, 0, 0))
@@ -47,6 +48,23 @@ document.addEventListener('turbolinks:load', () => {
         // 記録のある日付を選択できないようにする
         disable: gon.recorded_dates,
         defaultDate: 'today',
+    })
+
+    // 編集モーダルで日付を選択したときに，記録された体重を表示する関数
+    const editCalendar = document.getElementById('edit-calendar')
+    const editWeight = document.getElementById('edit-weight')
+    const inputWeight = () => {
+        let record = gon.weight_records.find((record) => record.date === editCalendar.value)
+        editWeight.value = record.weight
+    }
+    // 記録編集用のカレンダー
+    flatpickr('#edit-calendar', {
+        disableMobile: true,
+        // 記録のある日付のみ選択できるようにする
+        enable: gon.recorded_dates,
+        // 記録が無い場合は日付を選択できないようにする
+        noCalendar: gon.recorded_dates.length === 0,
+        onChange: inputWeight
     })
 
     // グラフを描く場所を取得
@@ -141,4 +159,6 @@ document.addEventListener('turbolinks:load', () => {
     })
     // グラフの初期表示
     drawGraphToday(A_WEEK_AGO)
+
+  }
 })
