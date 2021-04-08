@@ -41,6 +41,14 @@ document.addEventListener('turbolinks:load', () => {
     const startCalendarFlatpickr = flatpickr('#start-calendar', periodCalendarOption)
     const endCalendarFlatpickr = flatpickr('#end-calendar', periodCalendarOption)
 
+    // 新規登録用のカレンダー
+    flatpickr('#new-calendar', {
+        disableMobile: true,
+        // 記録のある日付を選択できないようにする
+        disable: gon.recorded_dates,
+        defaultDate: 'today',
+    })
+
     // グラフを描く場所を取得
     const chartWeightContext = document.getElementById("chart-weight").getContext('2d')
     // 関数内で変数宣言をするとローカル変数となり，関数の外で消えてしまう
